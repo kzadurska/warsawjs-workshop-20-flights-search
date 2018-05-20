@@ -14,7 +14,7 @@ class App extends Component {
     this.onFlightSearch = this.onFlightSearch.bind(this)
     this.onFlightsReset = this.onFlightsReset.bind(this)
     this.displayCity = this.displayCity.bind(this)
-    // this.onFlightSearchReset = this.onFlightSearchReset.bind(this)
+    this.filterPrice = this.filterPrice.bind(this)
 
     this.state = {
       isLoading: false,
@@ -52,6 +52,14 @@ class App extends Component {
     return `${place.city} ${place.code}`
   }
 
+  filterPrice(minPrice = 0, maxPrice = Infinity) {
+    const flights =  this.state.flights.filter((flight) => {
+      return flight.price > minPrice && flight.price < maxPrice
+    })
+
+    this.setState({ flights })
+  }
+
   render() {
     return (
       <div className="App">
@@ -70,6 +78,7 @@ class App extends Component {
           && <FlightList 
             flights={this.state.flights}
             displayCity={this.displayCity}
+            filterPrice={this.filterPrice}
             onFlightsReset={this.onFlightsReset}/>}
       </div>
     );
