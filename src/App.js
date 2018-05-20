@@ -2,22 +2,36 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { readAirportList, searchFlights } from './api.js'
+import Loading from './Loading'
+import SearchForm from './SearchForm'
+import FlightList from './FlightList'
 
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.handleClick = this.handleClick.bind(this)
+    // this.getAirportsList = this.getAirportsList.bind(this)
+
     this.state = {
-      loading: false,
-      airportsList: null,
+      isLoading: false,
+      airports: null,
+      flights: null,
       searchParams: {
         from: null,//'WAW',
         to: null,//'CDG', 
         departDate:null,// '2018-06-19',
         returnDate: null// '2018-06-20'
+      }
     }
-    }
+  }
+
+
+  componentDidMount() {
+    this.setState({isLoading: true})
+    readAirportList().then((airports) => {
+      this.setState({airports, isLoading: false });
+    }).catch((error) => console.warn(error))
   }
 
   handleClick() {
@@ -38,11 +52,13 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-
-          <a onClick={this.handleClick}>click me</a>
-        </p>
+        <Loading isLoading={this.state.isLoading}/>
+        {!this.state.isLoading 
+          && this.state.flights === null 
+          && <SearchForm />}
+        {!this.state.isLoading 
+          && this.state.flights !== null 
+          && <FlightList />}
       </div>
     );
   }
