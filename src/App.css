@@ -8,8 +8,8 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #483D8B;
+  height: 50px;
   padding: 20px;
   color: white;
 }
@@ -22,7 +22,42 @@
   font-size: large;
 }
 
+.App-section {
+  padding: 20px;
+  color: #483D8B;
+}
+
+.App-form {
+  display: flex;
+  width: 600px;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.App-form-body {
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.App-form-footer {
+  width: 100%;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.App-label {
+  margin: 10px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+

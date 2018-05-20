@@ -1,61 +1,59 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { readAirportList, searchFlights } from './api.js'
 import Loading from './Loading'
 import SearchForm from './SearchForm'
 import FlightList from './FlightList'
 
+
+
 class App extends Component {
   constructor(props) {
     super(props)
 
-    this.handleClick = this.handleClick.bind(this)
-    // this.getAirportsList = this.getAirportsList.bind(this)
+    this.onFlightSearch = this.onFlightSearch.bind(this)
+    // this.onFlightSearchReset = this.onFlightSearchReset.bind(this)
 
     this.state = {
       isLoading: false,
       airports: null,
       flights: null,
-      searchParams: {
-        from: null,//'WAW',
-        to: null,//'CDG', 
-        departDate:null,// '2018-06-19',
-        returnDate: null// '2018-06-20'
-      }
+      searchParams: null
     }
   }
-
 
   componentDidMount() {
     this.setState({isLoading: true})
-    readAirportList().then((airports) => {
-      this.setState({airports, isLoading: false });
-    }).catch((error) => console.warn(error))
+    readAirportList()
+      .then((airports) => {
+        this.setState({airports, isLoading: false });
+      })
+      .catch((error) => console.warn(error))
   }
 
-  handleClick() {
-    // readAirportList().then(function(data) {console.log(data)})// array of airports
-    const params = {
-      from: 'WAW',
-      to: 'CDG', 
-      departDate: '2018-06-19',
-      returnDate: '2018-06-20'
-    }
-    searchFlights(this.state.searchParams).then(function(data){console.log(data)})
+  onFlightSearch(params) {
+    this.setState({ isLoading: true })
+
+    searchFlights(params)
+      .then((flights) => {
+        this.setState({ flights, isLoading: false, searchParams: params })
+      })
+      .catch(error => console.warn(error))
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Flight search app</h1>
         </header>
         <Loading isLoading={this.state.isLoading}/>
         {!this.state.isLoading 
-          && this.state.flights === null 
-          && <SearchForm />}
+          && this.state.airports !== null 
+          && this.state.flights == null
+          && <SearchForm 
+            airports={this.state.airports} 
+            onFlightSearch={this.onFlightSearch} />}
         {!this.state.isLoading 
           && this.state.flights !== null 
           && <FlightList />}

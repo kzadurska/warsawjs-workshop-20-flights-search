@@ -5,9 +5,9 @@ const readAirportList = ()  => {
     })
 }
 
-const searchFlights = ({ departDate, returnDate, from, to }) => {
+const searchFlights = ({ dateFrom, dateTo, cityFrom, cityTo }) => {
   const url = 'https://warsawjs-flights-api.herokuapp.com'
-  return window.fetch(`${url}/flights/${departDate}/${returnDate}/${from}/${to}`,)
+  return window.fetch(`${url}/flights/${dateFrom}/${dateTo}/${cityFrom}/${cityTo}`)
     .then(function(response){
       return response.json()
     })
