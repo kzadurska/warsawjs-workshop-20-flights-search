@@ -12,6 +12,8 @@ class App extends Component {
     super(props)
 
     this.onFlightSearch = this.onFlightSearch.bind(this)
+    this.onFlightsReset = this.onFlightsReset.bind(this)
+    this.displayCity = this.displayCity.bind(this)
     // this.onFlightSearchReset = this.onFlightSearchReset.bind(this)
 
     this.state = {
@@ -41,6 +43,15 @@ class App extends Component {
       .catch(error => console.warn(error))
   }
 
+  onFlightsReset() {
+    this.setState({ flights: null })
+  }
+
+  displayCity(code) {
+    const place = this.state.airports.find(airport => airport.code === code)
+    return `${place.city} ${place.code}`
+  }
+
   render() {
     return (
       <div className="App">
@@ -56,7 +67,10 @@ class App extends Component {
             onFlightSearch={this.onFlightSearch} />}
         {!this.state.isLoading 
           && this.state.flights !== null 
-          && <FlightList />}
+          && <FlightList 
+            flights={this.state.flights}
+            displayCity={this.displayCity}
+            onFlightsReset={this.onFlightsReset}/>}
       </div>
     );
   }

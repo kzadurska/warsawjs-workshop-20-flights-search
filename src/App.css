@@ -35,6 +35,22 @@
   align-items: flex-start;
 }
 
+.App-results {
+  width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.App-results > ul {
+  list-style-type: none;
+}
+
+.App-results > ul > li {
+  padding: 10px 0;
+}
+
 .App-form-body {
   width: 100%;
   padding: 5px 10px;
@@ -53,6 +69,9 @@
 
 .App-label {
   margin: 10px;
+}
+.withMarginBottom {
+  margin-bottom: 10px;
 }
 
 @keyframes App-logo-spin {
